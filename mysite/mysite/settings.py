@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '0m$qq(kd6@20whfqsr1*+*xe8i9o2y$&h$-zw^g-*4i7x&7j!9'
+SECRET_KEY=os.getenv('SECRET_KEY'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -124,6 +124,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = {
-    os.path.join(BASE_DIR, 'static'),
-}
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
