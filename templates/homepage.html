@@ -2,8 +2,33 @@
 <html>
 <head>
 	<title>Questboard</title>
+	<div align=center>
+		<h1> Welcome!</h1>
+	<hr>
+	</div>
 </head>
 <body>
-<button>Create questboard</button>
+	<div align=center>
+		<button onclick="createQboard()">Create a new questboard</button>
+		<button>View existing Questboards</button>
+	<hr>
+		<div hidden id="create_form">
+			<form action="" method="post">
+				{% csrf_token %}
+				{{ form.as_p }}
+				<input type ="submit" value="Create">
+			</form>
+		</div>
+		<script>
+			function createQboard() {
+				var showCForm = document.getElementById("create_form");
+				if (showCForm.style.display === "none") {
+					showCForm.style.display = "block";
+				} else {
+					showCForm.style.display = "block";
+				}
+			}
+		</script>
+	</div>
 </body>
 </html>
