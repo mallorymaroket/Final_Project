@@ -9,23 +9,42 @@
 </head>
 <body>
 	<div align=center>
-		<button onclick="createQboard()">Create a new questboard</button>
-		<button>View existing Questboards</button>
+		<button onclick="createQuestBoard()">Create a new questboard</button>
+		<button onclick="renderQuestBoard()">View existing Questboards</button>
 	<hr>
 		<div hidden id="create_form">
-			<form action="" method="post">
+			<form action="" method="POST">
 				{% csrf_token %}
 				{{ form.as_p }}
 				<input type ="submit" value="Create">
 			</form>
 		</div>
+		<div hidden id="render_form">
+			<form action="" method="POST">
+				Name: {{ object.name }} <br>
+				Description: {{ object.description }} <br>
+				Stars: {{ object.required_stars }} <br>
+			</form>
+		</div>
 		<script>
-			function createQboard() {
-				var showCForm = document.getElementById("create_form");
-				if (showCForm.style.display === "none") {
-					showCForm.style.display = "block";
+			var showForm = document.getElementById("create_form");
+			var showQuestBoard = document.getElementById("render_form");
+			function createQuestBoard() {
+				if (showForm.style.display == "none") {
+					showForm.style.display = "block";
+					showQuestBoard.style.display = "none";
 				} else {
-					showCForm.style.display = "block";
+					showForm.style.display = "block";
+					showQuestBoard.style.display = "none";
+				}
+			}
+			function renderQuestBoard() {
+				if (showQuestBoard.style.display == "none") {
+					showQuestBoard.style.display = "block";
+					showForm.style.display = "none";
+				} else {
+					showQuestBoard.style.display = "block";
+					showForm.style.display = "none";
 				}
 			}
 		</script>
