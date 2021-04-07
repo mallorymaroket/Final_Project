@@ -7,6 +7,7 @@ from .forms import *
 from .models import *
 
 def homepage_view(request):
+	obj=None
 	form = QuestBoardForm(request.POST or None)
 	qb_count = QuestBoard.objects.all().count()
 	qb_id = list(QuestBoard.objects.values_list('name', flat=True).distinct())
