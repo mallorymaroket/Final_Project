@@ -4,9 +4,9 @@ from django import forms
 from .models import *
 
 
-class QuestBoardForm(forms.ModelForm):
+class HomepageForm(forms.ModelForm):
 	class Meta:
-		model = QuestBoard
+		model = CreateQuestboard
 		fields = [
 			'name',
 			'description',
