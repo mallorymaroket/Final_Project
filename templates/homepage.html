@@ -1,3 +1,12 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'questboard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,60 +16,25 @@
 	<hr>
 	</div>
 </head>
-<body>
-	<div align=center>
-		<button onclick="createQuestBoard()">Create a new questboard</button>
-		<button onclick="renderQuestBoard()">View existing Questboards</button>
-	<hr>
-		<div hidden id="create_form">
-			<form action="" method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-				<input type ="submit" value="Create">
-			</form>
-		</div>
-		<div hidden id="render_form">
-			{% if name %}
-			{% for object in allqboards %}
-				<table border="1" width="600">
-					<tr>
-						<td><b> Name </b></td>
-						<td> {{ object.name }} </td>
-					</tr>
-					<tr>
-						<td><b> Description </b></td>
-						<td> {{ object.description }} </td>
-					</tr>
-					<tr>
-						<td><b> Required Stars </b></td>
-						<td> {{ object.required_stars }} </td>
-					</tr>
-			{% endfor %}
-			{% endif %}
-				</table>
-		</div>
-		<script>
-			var showForm = document.getElementById("create_form");
-			var showQuestBoard = document.getElementById("render_form");
-			function createQuestBoard() {
-				if (showForm.style.display == "none") {
-					showForm.style.display = "block";
-					showQuestBoard.style.display = "none";
-				} else {
-					showForm.style.display = "block";
-					showQuestBoard.style.display = "none";
-				}
-			}
-			function renderQuestBoard() {
-				if (showQuestBoard.style.display == "none") {
-					showQuestBoard.style.display = "block";
-					showForm.style.display = "none";
-				} else {
-					showQuestBoard.style.display = "block";
-					showForm.style.display = "none";
-				}
-			}
-		</script>
-	</div>
-</body>
-</html>
+
+<p align="center">
+	<button type="button" class="btn btn-primary js-create-questboard" data-url="{% url 'questboard_create' %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Create a new questboard
+	</button>
+</p>
+<div class="modal fade" id="modal">
+    <div class="modal-dialog">
+      	<div class="modal-content">
+      	</div>
+    </div>
+</div>
+
+<p align="center">
+	<a href="/questboard"><button class="btn btn-primary">
+		View existing questboards
+	</button></a>
+</p>
+
+
+ {% endblock %}

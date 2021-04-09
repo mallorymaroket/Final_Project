@@ -1,44 +1,60 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
+from django.template.loader import render_to_string
+from django.http import HttpResponse, JsonResponse
 from django.views import View
 
 from .forms import *
-
 from .models import *
 
 def homepage_view(request):
-	if request.method == "POST":
-		form = HomepageForm(request.POST)
-		if form.is_valid():
-			form.save()
-			allqboards = CreateQuestboard.objects.all()
+		return render(request, "homepage.html")
 
-			context = {
-			"name":form.cleaned_data["name"],
-			"description":form.cleaned_data["description"],
-			"required_stars":form.cleaned_data["required_stars"],
-			"allqboards":allqboards,
-			"form":HomepageForm,
-			}
+def questboard_list(request):
+	obj = CreateQuestboard.objects.all()
+	return render(request, 'questboard_list.html', {'obj':obj})
 
-			return render(request, "homepage.html", context)
+def save_questboard_form(request, form, template_name):
+    data = dict()
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            data['form_is_valid'] = True
+            obj = CreateQuestboard.objects.all()
+            data['html_list'] = render_to_string('questboard_partial.html', {
+                'obj': obj
+            })
+        else:
+            data['form_is_valid'] = False
+    context = {'form': form}
+    data['html_form'] = render_to_string(template_name, context, request=request)
+    return JsonResponse(data)
 
-	else:
-		form = HomepageForm()
-		return render(request, "homepage.html", {"form":HomepageForm})
-	
-	# obj=None
-	# form = QuestBoardForm(request.POST or None)
-	# qb_count = QuestBoard.objects.all().count()
-	# qb_id = list(QuestBoard.objects.values_list('name', flat=True).distinct())
-	# if request.method == 'POST':
-	# 	if form.is_valid():
-	# 		new_questboard = form.save()
-	# 		questboard_id = new_questboard.id
-	# 		obj = QuestBoard.objects.get(id=questboard_id)
-	# 		form = QuestBoardForm()
-	# context = {
-	# 		'form' : form,
-	# 		'object' : obj,
-	# 	}
-	# return render(request, "homepage.html", context)
+def questboard_create(request):
+    if request.method == 'POST':
+        form = HomepageForm(request.POST)
+    else:
+        form = HomepageForm()
+    return save_questboard_form(request, form, 'questboard_create.html')
+
+def questboard_edit(request, pk):
+    questboard = get_object_or_404(CreateQuestboard, pk=pk)
+    if request.method == 'POST':
+        form = HomepageForm(request.POST, instance=questboard)
+    else:
+        form = HomepageForm(instance=questboard)
+    return save_questboard_form(request, form, 'questboard_edit.html')
+
+def questboard_delete(request, pk):
+    questboard = get_object_or_404(CreateQuestboard, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        questboard.delete()
+        data['form_is_valid'] = True
+        obj = CreateQuestboard.objects.all()
+        data['html_list'] = render_to_string('questboard_partial.html', {
+            'obj': obj
+        })
+    else:
+        context = {'questboard': questboard}
+        data['html_form'] = render_to_string('questboard_delete.html', context, request=request)
+    return JsonResponse(data)

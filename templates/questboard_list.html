@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'questboard.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+  <h1 class="page-header">Questboards</h1>
+  <title>Questboards</title>
+
+  <table class="table" id="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Required Stars</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% include 'questboard_partial.html' %}
+    </tbody>
+  </table>
+
+  <p align="center">
+    <button type="button" class="btn btn-primary js-create-questboard" data-url="{% url 'questboard_create' %}">
+      <span class="glyphicon glyphicon-plus"></span>
+      Add questboard
+    </button>
+  </p>
+
+  <div class="modal fade" id="modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+      </div>
+    </div>
+  </div>
+
+  <a href="/home" style="color:red"> &#8249; go back to Home </a> &nbsp;
+{% endblock %}

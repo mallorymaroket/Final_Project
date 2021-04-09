@@ -15,8 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls.static import static
+from django.conf import settings
+from django.conf.urls import url, include
+
+from questboard.views import *
 
 urlpatterns = [
-	path('', include('questboard.urls')),
+	path('', homepage_view),
+	path('home/', homepage_view),
     path('admin/', admin.site.urls),
+    path('questboard/', questboard_list, name='questboard_list'),
+    path(r'questboard/create/$', questboard_create, name='questboard_create'),
+    path(r'^questboard/(?P<pk>\d+)/edit/$', questboard_edit, name='questboard_edit'),
+    path(r'^questboard/(?P<pk>\d+)/delete/$', questboard_delete, name='questboard_delete'),
 ]
