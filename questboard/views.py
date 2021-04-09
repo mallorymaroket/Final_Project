@@ -58,3 +58,6 @@ def questboard_delete(request, pk):
         context = {'questboard': questboard}
         data['html_form'] = render_to_string('questboard_delete.html', context, request=request)
     return JsonResponse(data)
+
+def quest_list(request):
+    return render(request, "quest_list.html")

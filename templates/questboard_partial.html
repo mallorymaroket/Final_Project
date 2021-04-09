@@ -3,7 +3,14 @@
     <td>{{ questboard.name }}</td>
     <td>{{ questboard.description }}</td>
     <td>{{ questboard.required_stars }}</td>
-    <td style="width: 150px">
+    <td style="width: 300px">
+      <a href="/home">
+        <button type="button"
+                class="btn btn-info btn-sm js-edit-questboard"
+                data-url="{% url 'questboard_edit' questboard.id %}">
+          <span class="glyphicon glyphicon-pencil"></span> Add Quest
+        </button>
+      </a>
       <button type="button"
               class="btn btn-warning btn-sm js-edit-questboard"
               data-url="{% url 'questboard_edit' questboard.id %}">
