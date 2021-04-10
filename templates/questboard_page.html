@@ -16,6 +16,7 @@
 		<h2> qboard desc </h2>
 		<h3> qboard stars </h3>
 	</div>
+	<a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
 	<hr>
 </head>
 <style>
@@ -25,9 +26,7 @@ html {
 
 body {
     height: 100%;
-}
-
-body {
+    text-align: center;
 }
 
 .container-fluid {
@@ -40,11 +39,15 @@ body {
 
     padding-bottom: 5px;
 }
+.quest_card {
+	border: 1px solid black;
+	text-align: center;
 
+}
 </style>
 <body>
 	<p align="center">
-	<button type="button" class="btn btn-primary js-create-quest" data-url="{% url 'quest_create' %}">
+	<button onclick="add_quest()" type="button" class="btn btn-primary js-create-quest" action="{% url 'quest_create' %}">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add quest
 	</button>
@@ -59,5 +62,43 @@ body {
       		</div>
     	</div>
     </div>
+{% if form.is_valid %}
+	{% for quest in quest_list %}
+		<div class="quest_card">
+			<b>Name:</b> {{ quest.name }} <br>
+			<b>Description:</b> {{ quest.description }} <br>
+			<b>Required stars:</b> {{ quest.stars_given }} <br>
+			<b>For everyone?:</b> {{ quest.dropdown }} <br>
+		</div>
+	{% endfor %}
+	<br>
+	<div hidden id="form">
+		<form action="" method="POST">
+				{% csrf_token %}
+				{{ form.as_p }}
+			<input type="submit" value="Add">
+		</form>
+	</div>
+	<hr>
+{% else %}
+	<div hidden id="form">
+		<form action="" method="POST">
+				{% csrf_token %}
+				{{ form.as_p }}
+			<input type="submit" value="Add">
+		</form>
+		<br>
+	</div>
+{% endif %}
+	<script>
+		var showForm = document.getElementById("form");
+		function add_quest() {
+			if (showForm.style.display == "none") {
+					showForm.style.display = "block";
+				} else {
+					showForm.style.display = "block";
+				}
+		}
+	</script>
 </body>
  {% endblock %}

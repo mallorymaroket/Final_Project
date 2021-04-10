@@ -22,3 +22,7 @@ class QuestboardPageForm(forms.ModelForm):
 			'stars_given',
 			'dropdown',
 		]
+		labels = {
+			'stars_given':'Required Stars',
+			'dropdown':'For everyone?'
+		}
