@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block javascript %}
+  <script src="{% static 'quest.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title> qboard name </title>
+	<div align=center>
+		<h1> qboard name </h1>
+		<h2> qboard desc </h2>
+		<h3> qboard stars </h3>
+	</div>
+	<hr>
+</head>
+<style>
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+body {
+}
+
+.container-fluid {
+    height: 100%;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.row-first {
+
+    padding-bottom: 5px;
+}
+
+</style>
+<body>
+	<p align="center">
+	<button type="button" class="btn btn-primary js-create-quest" data-url="{% url 'quest_create' %}">
+		<span class="glyphicon glyphicon-plus"></span>
+		Add quest
+	</button>
+	</p>
+
+	<table class="table" id="quest-table">
+	</table>
+
+	<div class="modal fade" id="modal">
+    	<div class="modal-dialog">
+      		<div class="modal-content">
+      		</div>
+    	</div>
+    </div>
+</body>
+ {% endblock %}

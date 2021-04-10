@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<form method="post" action="{% url 'questboard_create' %}" class="js-questboard-create-form">
+<form method="post" action="{% url 'quest_create' %}" class="js-quest-create-form">
   {% csrf_token %}
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="modal-title">Add a new questboard</h4>
+    <h4 class="modal-title">Add a new quest</h4>
   </div>
   <div class="modal-body">
     {% include 'form.html' %}
