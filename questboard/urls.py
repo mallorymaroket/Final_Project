@@ -10,6 +10,4 @@ urlpatterns = [
     path('', questboard_delete, name='questboard_delete'),
 
     path('', questboard_page, name='questboard_page'),
-    path('', quest_list, name='quest_list'),
-	path('', quest_create, name='quest_create'),
 ]

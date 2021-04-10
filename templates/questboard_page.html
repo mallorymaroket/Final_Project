@@ -16,7 +16,6 @@
 		<h2> qboard desc </h2>
 		<h3> qboard stars </h3>
 	</div>
-	<a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
 	<hr>
 </head>
 <style>
@@ -47,7 +46,7 @@ body {
 </style>
 <body>
 	<p align="center">
-	<button onclick="add_quest()" type="button" class="btn btn-primary js-create-quest" action="{% url 'quest_create' %}">
+	<button onclick="add_quest()"5>
 		<span class="glyphicon glyphicon-plus"></span>
 		Add quest
 	</button>
@@ -68,18 +67,25 @@ body {
 			<b>Name:</b> {{ quest.name }} <br>
 			<b>Description:</b> {{ quest.description }} <br>
 			<b>Required stars:</b> {{ quest.stars_given }} <br>
-			<b>For everyone?:</b> {{ quest.dropdown }} <br>
+			<b>Dibs:</b>
+			{% if quest.dropdown == "Everyone" %}
+				Everyone
+			{% else %}
+				{{ quest.student1 }} <br>
+				{{ quest.student2 }} <br>
+				{{ quest.student3 }}
+			{% endif %}
 		</div>
 	{% endfor %}
 	<br>
 	<div hidden id="form">
+	<hr>
 		<form action="" method="POST">
 				{% csrf_token %}
 				{{ form.as_p }}
 			<input type="submit" value="Add">
 		</form>
 	</div>
-	<hr>
 {% else %}
 	<div hidden id="form">
 		<form action="" method="POST">
@@ -100,5 +106,8 @@ body {
 				}
 		}
 	</script>
+<hr>
+<a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
 </body>
+</html>
  {% endblock %}

@@ -75,30 +75,3 @@ def questboardpage_view(request):
         form = QuestboardPageForm()
 
     return render(request, "questboard_page.html", {'form':form})
-
-def quest_list(request):
-    obj = CreateQuest.objects.all()
-    return render(request, 'quest_list.html', {'obj':obj})
-
-def save_quest_form(request, form, template_name):
-    data = dict()
-    if request.method == 'POST':
-        if form.is_valid():
-            form.save()
-            data['form_is_valid'] = True
-            obj = CreateQuest.objects.all()
-            data['html_list'] = render_to_string('quest_partial.html', {
-                'obj': obj
-            })
-        else:
-            data['form_is_valid'] = False
-    context = {'form': form}
-    data['html_form'] = render_to_string(template_name, context, request=request)
-    return JsonResponse(data)
-
-def quest_create(request):
-    if request.method == 'POST':
-        form = QuestboardPageForm(request.POST)
-    else:
-        form = QuestboardPageForm()
-    return save_quest_form(request, form, 'quest_create.html')
