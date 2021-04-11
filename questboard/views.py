@@ -59,7 +59,8 @@ def questboard_delete(request, pk):
         data['html_form'] = render_to_string('questboard_delete.html', context, request=request)
     return JsonResponse(data)
 
-def questboardpage_view(request):
+def questboard_page(request, id):
+    questboard = get_object_or_404(CreateQuestboard, id=id)
     if request.method == 'POST':
         form = QuestboardPageForm(request.POST)
         if form.is_valid():
@@ -67,11 +68,10 @@ def questboardpage_view(request):
             queryset = CreateQuest.objects.all()
             context = {
                 'form':form,
-                #'obj':obj,
                 'quest_list':queryset,
+                'questboard':questboard
             }
             return render(request, 'questboard_page.html', context)
     else:
         form = QuestboardPageForm()
-
-    return render(request, "questboard_page.html", {'form':form})
+    return render(request, "questboard_page.html", {'form':form,'questboard':questboard})

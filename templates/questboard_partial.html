@@ -4,7 +4,7 @@
     <td>{{ questboard.description }}</td>
     <td>{{ questboard.required_stars }}</td>
     <td style="width: 300px">
-      <a href="/questboard_page">
+      <a href="http://localhost:8000/questboard_page/{{ questboard.id }}">
         <button type="button"
                 class="btn btn-info btn-sm js-edit-questboard"
                 data-url="{% url 'questboard_edit' questboard.id %}">

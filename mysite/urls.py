@@ -29,6 +29,5 @@ urlpatterns = [
     path(r'questboard/create/$', questboard_create, name='questboard_create'),
     path(r'^questboard/(?P<pk>\d+)/edit/$', questboard_edit, name='questboard_edit'),
     path(r'^questboard/(?P<pk>\d+)/delete/$', questboard_delete, name='questboard_delete'),
-
-    path('questboard_page/', questboardpage_view),
+    path('questboard_page/<int:id>', questboard_page, name='questboard_page'),
 ]
