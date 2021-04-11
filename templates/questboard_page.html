@@ -10,91 +10,70 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title> {{ questboard.name }} </title>
+	<title> {{ questboard.name }} Questboard </title>
 	<div align=center>
-		<h1> {{ questboard.name }} </h1>
-		<h2> {{ questboard.description }} </h2>
-		<h3> {{ questboard.stars }} </h3>
+		<h1> {{ questboard.name }} </h1>		<h4> *Each group should collect {{ questboard.required_stars }} star/s to fulfill the requirements for {{ questboard.name }}* <br> <br>
+		{{ questboard.description }}   </h4>
 	</div>
 	<hr>
 </head>
-<style>
-html {
-    height: 100%;
-}
-
-body {
-    height: 100%;
-    text-align: center;
-}
-
-.container-fluid {
-    height: 100%;
-    padding-left: 25px;
-    padding-right: 25px;
-}
-
-.row-first {
-
-    padding-bottom: 5px;
-}
-.quest_card {
-	border: 1px solid black;
-	text-align: center;
-
-}
-</style>
 <body>
-	<p align="center">
-	<button onclick="add_quest()"5>
+	<div align=center>
+	<button onclick="add_quest()">
 		<span class="glyphicon glyphicon-plus"></span>
 		Add quest
 	</button>
-	</p>
-	<table class="table" id="quest-table">
-	</table>
 
-	<div class="modal fade" id="modal">
-    	<div class="modal-dialog">
-      		<div class="modal-content">
-      		</div>
-    	</div>
-    </div>
-{% if form.is_valid %}
-	{% for quest in quest_list %}
-		<div class="quest_card">
-			<b>Name:</b> {{ quest.name }} <br>
-			<b>Description:</b> {{ quest.description }} <br>
-			<b>Required stars:</b> {{ quest.stars_given }} <br>
-			<b>Dibs:</b>
-			{% if quest.dropdown == "Everyone" %}
-				Everyone
-			{% else %}
-				{{ quest.student1 }} <br>
-				{{ quest.student2 }} <br>
-				{{ quest.student3 }}
-			{% endif %}
-		</div>
-	{% endfor %}
-	<br>
-	<div hidden id="form">
+	{% if form.is_valid %}
 	<hr>
-		<form action="" method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-			<input type="submit" value="Add">
-		</form>
-	</div>
-	{% else %}
-	<div hidden id="form">
-		<form action="" method="POST">
-				{% csrf_token %}
-				{{ form.as_p }}
-			<input type="submit" value="Add">
-		</form>
+		{% for quest in quest_list %}
+			<table align=center border=1 width=800>
+				<caption> Quest </caption>
+				<tr>
+					<td><b> Name </b></td>
+					<td> {{ quest.name }} </td>
+				</tr>
+				<tr>
+					<td><b> Description </b></td>
+					<td> {{ quest.description }} </td>
+				</tr>
+				<tr>
+					<td><b> Dibs </b></td>
+					{% if quest.dropdown == "Everyone" %}
+					<td> Everyone </td>
+					{% else %}
+					<td> {{ quest.student1 }} <br>{{ quest.student2 }} <br>
+					{{ quest.student3 }} </td>
+					{% endif %}
+				</tr>
+				<tr>
+					<td><b> Corresponding Number of Stars </b></td>
+					<td> {{ quest.stars_given }} </td>
+				</tr>
+			</table> <br>
+		{% endfor %}
 		<br>
-	</div>
-	{% endif %}
+		<dialog hidden id="form">
+	<hr>
+			<form action="" method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+				<input type="submit" value="Add">
+			</form>
+		</dialog>
+		{% else %}
+		<dialog hidden id="form">
+			<form action="" method="POST">
+					{% csrf_token %}
+					{{ form.as_p }}
+				<input type="submit" value="Add">
+			</form>
+		</dialog>
+		{% endif %}
+		</div>
+	<hr>
+		<a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
+
 	<script>
 		var showForm = document.getElementById("form");
 		function add_quest() {
@@ -105,8 +84,6 @@ body {
 				}
 		}
 	</script>
-	<hr>
-	<a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
 </body>
 </html>
  {% endblock %}

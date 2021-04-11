@@ -59,6 +59,7 @@ def questboard_delete(request, pk):
         data['html_form'] = render_to_string('questboard_delete.html', context, request=request)
     return JsonResponse(data)
 
+
 def questboard_page(request, id):
     questboard = get_object_or_404(CreateQuestboard, id=id)
     if request.method == 'POST':
