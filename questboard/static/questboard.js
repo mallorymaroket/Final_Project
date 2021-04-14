@@ -1,7 +1,5 @@
 $(function () {
 
-  /* Functions */
-
   var loadForm = function () {
     var btn = $(this);
     $.ajax({

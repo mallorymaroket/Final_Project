@@ -9,6 +9,7 @@ class CreateQuestboard(models.Model):
     def __str__(self):
     	return self.name
 
+
 class CreateQuest(models.Model):
 	# user = models.ForeignKey(to=CreateQuestboard, on_delete=models.CASCADE)
 	questboard = models.ForeignKey(CreateQuestboard, on_delete=models.CASCADE, null=True)
