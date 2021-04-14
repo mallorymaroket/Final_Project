@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.http import HttpResponse, JsonResponse
 from django.views import View
+from .filters import QuestFilter
 
 from .forms import *
 from .models import *
@@ -59,19 +60,51 @@ def questboard_delete(request, pk):
         data['html_form'] = render_to_string('questboard_delete.html', context, request=request)
     return JsonResponse(data)
 
-def questboard_page(request, id):
-    questboard = get_object_or_404(CreateQuestboard, id=id)
-    if request.method == 'POST':
-        form = QuestboardPageForm(request.POST)
-        if form.is_valid():
-            new_key = form.save()
-            queryset = CreateQuest.objects.all()
-            context = {
-                'form':form,
-                'quest_list':queryset,
-                'questboard':questboard
-            }
-            return render(request, 'questboard_page.html', context)
-    else:
-        form = QuestboardPageForm()
-    return render(request, "questboard_page.html", {'form':form,'questboard':questboard})
+def quest_list(request, pk):
+	questboard = CreateQuestboard.objects.get(id=pk)
+	quests = questboard.createquest_set.all()
+	total_quests = quests.count()
+
+	qFilter = QuestFilter(request.GET, queryset=quests) 
+	quests = qFilter.qs
+
+	context = {
+		'questboard':questboard, 
+		'quests':quests,
+		'total_quests':total_quests
+		}
+	return render(request, 'quest_list.html', context)
+
+def quest_create(request):
+	action = 'create'
+	form = QuestboardPageForm() 
+	if request.method == 'POST':
+		form = QuestboardPageForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return redirect('/questboard')
+
+	context =  {'action':action, 'form':form}
+	return render(request, 'quest_form.html', context)
+
+def quest_edit(request, pk):
+	action = 'edit'
+	quest = CreateQuest.objects.get(id=pk)
+	form = QuestboardPageForm(instance=quest)
+
+	if request.method == 'POST':
+		form = QuestboardPageForm(request.POST, instance=quest)
+		if form.is_valid():
+			form.save()
+			return redirect('/questboard/')
+
+	context =  {'action':action, 'form':form}
+	return render(request, 'quest_form.html', context)
+
+def quest_delete(request, pk):
+	quest = CreateQuest.objects.get(id=pk)
+	if request.method == 'POST':
+		quest.delete()
+		return redirect('/questboard/')
+		
+	return render(request, 'quest_delete.html', {'item':quest})

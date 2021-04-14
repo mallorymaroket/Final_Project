@@ -2,14 +2,18 @@ from django.db import models
 
 
 class CreateQuestboard(models.Model):
-    name = models.CharField(max_length=20)
-    description = models.TextField()
+    name = models.CharField(max_length=20, null=True)
+    description = models.TextField(null=True)
     required_stars = models.PositiveIntegerField()
+
+    def __str__(self):
+    	return self.name
 
 class CreateQuest(models.Model):
 	# user = models.ForeignKey(to=CreateQuestboard, on_delete=models.CASCADE)
-	name = models.CharField(max_length=40)
-	description = models.TextField()
+	questboard = models.ForeignKey(CreateQuestboard, on_delete=models.CASCADE, null=True)
+	name = models.CharField(max_length=100, null=True)
+	description = models.TextField(null=True)
 	stars_given = models.PositiveIntegerField()
 
 

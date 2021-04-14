@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+
+<h1 class="page-header">Quests</h1>
+  <title>Quests</title>
+
+<div class="row">
+  <div class="col-md">
+    <div class="card card-body">
+      <h5><strong>Name: </strong>
+      {{questboard.name}}</h5>
+      <h5><strong>Description: </strong>
+      {{questboard.description}}</h5>
+      <h5><strong>Required Stars: </strong>
+      {{questboard.required_stars}}</h5>
+      <h5><strong>Total quests: </strong>
+      {{total_quests}}</h5>
+      <hr>
+    </div>
+  </div>
+
+<br>
+{% for quest in quests %}
+  <div class="row">
+    <div class="col-md">
+      <div class="card-deck">
+        <div class="card card card-blog">
+          <div class="card-body">
+            <table class="table table-sm">
+              <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Stars Given</th>
+                <th>Dibs</th>
+                <th></th>
+              </tr>
+              <tr>
+                <td>{{quest.name}}</td>
+                <td>{{quest.description}}</td>
+                <td>{{quest.stars_given}}</td>
+                {% if quest.dropdown == 'Everyone' %}
+                  <td>Everyone</td>
+                {% else %}
+                  <td>{{quest.student1}}<br>
+                    {{quest.student2}}<br>
+                    {{quest.student3}}
+                  </td>
+                {% endif %}
+                <td style="width: 120px">
+                  {% if quest.dropdown == 'Everyone' %}
+                    <a class="btn btn-sm btn-info" href="{% url 'quest_edit' quest.id %}">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
+                  {% elif quest.dropdown == 'Student/s' %}
+                    {% if quest.student1 == ' ' %}
+                      <a class="btn btn-sm btn-info" href="{% url 'quest_edit' quest.id %}">Edit</a>
+                      <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
+                    {% else %}
+                      <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
+                    {% endif %}
+                  {% endif %}
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endfor %}
+      <p align="center">
+        <a class="btn btn-primary" href="{% url 'quest_create' %}">
+          <span class="glyphicon glyphicon-plus"></span>
+          Add quest
+        </a>
+      </p>
+
+      <br>
+
+      <a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
+    </div>
+  </div>
+</div>
+  
+
+
+{% endblock %}

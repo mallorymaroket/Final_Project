@@ -16,7 +16,7 @@ class QuestboardPageForm(forms.ModelForm):
 	class Meta:
 		model = CreateQuest
 		fields = [
-			# 'user',
+			'questboard',
 			'name',
 			'description',
 			'stars_given',
