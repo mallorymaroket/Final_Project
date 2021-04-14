@@ -11,7 +11,6 @@ class CreateQuestboard(models.Model):
 
 
 class CreateQuest(models.Model):
-	# user = models.ForeignKey(to=CreateQuestboard, on_delete=models.CASCADE)
 	questboard = models.ForeignKey(CreateQuestboard, on_delete=models.CASCADE, null=True)
 	name = models.CharField(max_length=100, null=True)
 	description = models.TextField(null=True)

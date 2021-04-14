@@ -13,4 +13,5 @@ urlpatterns = [
     path('', quest_create, name='quest_create'),
     path('', quest_delete, name='quest_delete'),
 	path('', quest_edit, name="quest_edit"),
+	path('', quest_dibs, name="quest_dibs"),
 ]

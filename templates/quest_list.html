@@ -3,25 +3,22 @@
 {% load widget_tweaks %}
 
 
-<h1 class="page-header">Quests</h1>
+<h1 class="page-header">{{questboard.name}} Quests</h1>
   <title>Quests</title>
 
-<div class="row">
+<div class="row" align=center>
   <div class="col-md">
     <div class="card card-body">
-      <h5><strong>Name: </strong>
-      {{questboard.name}}</h5>
-      <h5><strong>Description: </strong>
-      {{questboard.description}}</h5>
-      <h5><strong>Required Stars: </strong>
-      {{questboard.required_stars}}</h5>
-      <h5><strong>Total quests: </strong>
-      {{total_quests}}</h5>
+      <h3><strong>{{questboard.name}} Questboard</strong></h5>
+      <h5>{{questboard.description}} <br>
+      Each group should collect <strong>{{questboard.required_stars}} stars </strong>to fulfill the requirements for {{questboard.name}}. <br> </h5>
       <hr>
     </div>
   </div>
 
 <br>
+<strong>Total quests: </strong>
+        {{total_quests}}
 {% for quest in quests %}
   <div class="row">
     <div class="col-md">
@@ -50,16 +47,14 @@
                 {% endif %}
                 <td style="width: 120px">
                   {% if quest.dropdown == 'Everyone' %}
-                    <a class="btn btn-sm btn-info" href="{% url 'quest_edit' quest.id %}">Edit</a>
-                    <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
-                  {% elif quest.dropdown == 'Student/s' %}
-                    {% if quest.student1 == ' ' %}
-                      <a class="btn btn-sm btn-info" href="{% url 'quest_edit' quest.id %}">Edit</a>
-                      <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
-                    {% else %}
-                      <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}">Delete</a>
-                    {% endif %}
+                    <a class="btn btn-sm btn-warning" href="{% url 'quest_edit' quest.id %}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                  {% elif quest.dropdown == 'Student/s' and quest.student1 == '' %}
+                    <a class="btn btn-sm btn-warning" href="{% url 'quest_edit' quest.id %}"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                    <a class="btn btn-sm btn-success" href="{% url 'quest_dibs' quest.id %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                  {% elif quest.dropdown == 'Student/s' and quest.student3 == '' %}
+                      <a class="btn btn-sm btn-success" href="{% url 'quest_dibs' quest.id %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
                   {% endif %}
+                  <a class="btn btn-sm btn-danger" href="{% url 'quest_delete' quest.id %}"><span class="glyphicon glyphicon-trash"></span> Delete</a>
                 </td>
               </tr>
             </table>
@@ -75,14 +70,11 @@
           Add quest
         </a>
       </p>
-
-      <br>
+<br>
 
       <a href="/questboard" style="color:red"> &#8249; go back to Questboards </a> &nbsp;
     </div>
   </div>
 </div>
-  
-
 
 {% endblock %}

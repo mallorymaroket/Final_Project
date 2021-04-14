@@ -10,6 +10,8 @@
 				<h3>Create Quest</h3>
 			{% elif action == 'edit' %}
 				<h3>Edit Quest</h3>
+			{% elif action == 'dibs' %}
+				<h3> Sign up </h3>
 			{% endif %}
 			
 		</div>
@@ -24,7 +26,6 @@
 				{% for field in form %}
 					{{field.label}}
 					{{field|add_class:'form-control'}}
-				
 				{% endfor %}
 				<hr>
 				<input type="submit" class="btn btn-info">

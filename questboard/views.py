@@ -77,12 +77,16 @@ def quest_list(request, pk):
 
 def quest_create(request):
 	action = 'create'
-	form = QuestboardPageForm() 
+	form = QuestboardPageForm()
+	form.fields['student1'].disabled = True
+	form.fields['student2'].disabled = True
+	form.fields['student3'].disabled = True
+
 	if request.method == 'POST':
 		form = QuestboardPageForm(request.POST)
 		if form.is_valid():
 			form.save()
-			return redirect('/questboard')
+			return redirect('/questboard/')
 
 	context =  {'action':action, 'form':form}
 	return render(request, 'quest_form.html', context)
@@ -91,6 +95,9 @@ def quest_edit(request, pk):
 	action = 'edit'
 	quest = CreateQuest.objects.get(id=pk)
 	form = QuestboardPageForm(instance=quest)
+	form.fields['student1'].disabled = True
+	form.fields['student2'].disabled = True
+	form.fields['student3'].disabled = True
 
 	if request.method == 'POST':
 		form = QuestboardPageForm(request.POST, instance=quest)
@@ -100,6 +107,31 @@ def quest_edit(request, pk):
 
 	context =  {'action':action, 'form':form}
 	return render(request, 'quest_form.html', context)
+
+def quest_dibs(request, pk):
+    action = 'dibs'
+    quest = CreateQuest.objects.get(id=pk)
+    form = QuestboardPageForm(instance=quest)
+
+    form.fields['questboard'].disabled = True
+    form.fields['name'].disabled = True
+    form.fields['description'].disabled = True
+    form.fields['stars_given'].disabled = True
+    form.fields['dropdown'].disabled = True
+
+    if request.method == 'POST':
+        form = QuestboardPageForm(request.POST, instance=quest)
+        form.fields['questboard'].disabled = True
+        form.fields['name'].disabled = True 
+        form.fields['description'].disabled = True
+        form.fields['stars_given'].disabled = True
+        form.fields['dropdown'].disabled = True
+        if form.is_valid():
+            form.save()
+            return redirect('/questboard/')
+
+    context =  {'action':action, 'form':form}
+    return render(request, 'quest_form.html', context)
 
 def quest_delete(request, pk):
 	quest = CreateQuest.objects.get(id=pk)

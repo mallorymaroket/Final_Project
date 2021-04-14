@@ -26,12 +26,13 @@ urlpatterns = [
 	path('home/', homepage_view),
     path('admin/', admin.site.urls),
     path('questboard/', questboard_list, name='questboard_list'),
-    path(r'questboard/create/$', questboard_create, name='questboard_create'),
+    path(r'^questboard/create/$', questboard_create, name='questboard_create'),
     path(r'^questboard/(?P<pk>\d+)/edit/$', questboard_edit, name='questboard_edit'),
     path(r'^questboard/(?P<pk>\d+)/delete/$', questboard_delete, name='questboard_delete'),
-    
+
     path('quests/<str:pk>/', quest_list, name='quest_list'),
     path('create_quest/', quest_create, name='quest_create'),
     path('delete_quest/<str:pk>/', quest_delete, name='quest_delete'),
-	path('edit_quest/<str:pk>/', quest_edit, name="quest_edit"),
+    path('edit_quest/<str:pk>/', quest_edit, name="quest_edit"),
+    path('dibs_quest/<str:pk>/', quest_dibs, name="quest_dibs"),
 ]
